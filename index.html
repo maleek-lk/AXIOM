@@ -1215,13 +1215,78 @@ canvas.addEventListener("pointerup", () => {
 });
 
 canvas.addEventListener("wheel", event => {
+
     event.preventDefault();
-    const before = worldPosition(event.clientX, event.clientY);
-    const factor = Math.exp(-event.deltaY * .001);
-    state.camera.zoom = Math.max(.2, Math.min(3, state.camera.zoom * factor));
-    const after = worldPosition(event.clientX, event.clientY);
-    state.camera.x += before.x - after.x;
-    state.camera.y += before.y - after.y;
+
+    const p = pointerPosition(event);
+
+    /*
+       World position underneath the cursor
+       BEFORE zooming.
+    */
+    const before = worldPosition(p.x, p.y);
+
+    /*
+       Normalize wheel sensitivity.
+
+       Small delta = smooth trackpad movement.
+       Large delta = mouse wheel movement.
+
+       The clamp prevents one wheel event
+       from producing a massive jump.
+    */
+    let delta = event.deltaY;
+
+    if (event.deltaMode === 1) {
+        delta *= 16;
+    } else if (event.deltaMode === 2) {
+        delta *= state.height;
+    }
+
+    delta = Math.max(-80, Math.min(80, delta));
+
+    /*
+       Smaller number = slower zoom.
+       This gives much more controlled scaling.
+    */
+    const factor = Math.pow(
+        1.0015,
+        -delta
+    );
+
+    const oldZoom = state.camera.zoom;
+
+    const newZoom = Math.max(
+        0.25,
+        Math.min(
+            3,
+            oldZoom * factor
+        )
+    );
+
+    /*
+       Don't do anything if the zoom
+       was already at its limit.
+    */
+    if (newZoom === oldZoom) {
+        return;
+    }
+
+    state.camera.zoom = newZoom;
+
+    /*
+       Recalculate the world position
+       underneath the SAME cursor.
+
+       Then move the camera by the difference.
+
+       This is the important part.
+    */
+    const after = worldPosition(p.x, p.y);
+
+    state.camera.x += after.x - before.x;
+    state.camera.y += after.y - before.y;
+
 }, { passive: false });
 
 /*
@@ -1264,13 +1329,28 @@ canvas.addEventListener("pointermove", event => {
     if (activePointers.size < 2 || !pinchState) return;
 
     const c = pointerCenterAndDistance();
-    const oldZoom = state.camera.zoom;
-    const newZoom = Math.max(.2, Math.min(3, pinchState.zoom * c.distance / pinchState.distance));
+  const newZoom = Math.max(
+    0.25,
+    Math.min(
+        3,
+        pinchState.zoom *
+        (c.distance / pinchState.distance)
+    )
+);
 
-    /* Keep the original world point under the moving finger midpoint. */
-    state.camera.zoom = newZoom;
-    state.camera.x = pinchState.worldX - (c.x - state.width / 2) / newZoom;
-    state.camera.y = pinchState.worldY - (c.y - state.height / 2) / newZoom;
+state.camera.zoom = newZoom;
+
+/*
+   Keep the original world point
+   underneath the finger midpoint.
+*/
+state.camera.x =
+    (c.x - state.width / 2) / newZoom
+    - pinchState.worldX;
+
+state.camera.y =
+    (c.y - state.height / 2) / newZoom
+    - pinchState.worldY;
 
     state.dragging = null;
     state.pointer = { x: c.x, y: c.y };
