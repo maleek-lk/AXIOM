@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIOM — Embodiment of Your Thoughts</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- Google Fonts for minimal futuristic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Top UI Bar & Controls -->
+    <header class="axiom-header">
+        <div class="brand">
+            <h1>AXIOM</h1>
+            <span>REFORMATION / I</span>
+        </div>
+        <div class="controls-group">
+            <button id="themeToggleBtn" title="Cycle Theme">Theme</button>
+            <button id="fitGraphBtn" title="Fit Graph">Fit View</button>
+            <button id="recenterBtn" title="Recenter">Recenter</button>
+        </div>
+    </header>
+
+    <!-- Main Interactive Graph Field -->
+    <main id="canvasContainer">
+        <canvas id="axiomCanvas"></canvas>
+    </main>
+
+    <!-- Bottom Input & Command Dock -->
+    <footer class="axiom-dock">
+        <div class="dock-wrapper">
+            <select id="motherSelect" title="Select Current Mother Universe">
+                <option value="Random Thoughts">Random Thoughts</option>
+                <option value="Philosophy">Philosophy</option>
+                <option value="Career">Career</option>
+            </select>
+            <input type="text" id="thoughtInput" placeholder="Write a thought and press Enter..." autocomplete="off">
+            <button id="addMotherBtn" title="Create New Mother">+ Mother</button>
+            <button id="exportBtn" title="Export as PNG">Export PNG</button>
+        </div>
+    </footer>
+
+    <!-- Minimap Overlay -->
+    <div id="minimapContainer">
+        <canvas id="minimapCanvas"></canvas>
+    </div>
+
+    <!-- Hidden Export Watermark Canvas Overlay -->
+    <canvas id="exportCanvas" style="display:none;"></canvas>
+
+    <script src="./app.js"></script>
+</body>
+      </html>
+        
