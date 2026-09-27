@@ -1,0 +1,177 @@
+:root {
+    /* Default Theme: Cosmic Night */
+    --bg-color: #0F2027;
+    --bg-gradient: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --text-primary: #FFFFFF;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --accent-glow: rgba(116, 235, 213, 0.4);
+    --mother-color: #74EBD5;
+    --thought-color: #ACB6E5;
+    --line-color: rgba(255, 255, 255, 0.12);
+    --ui-bg: rgba(15, 32, 39, 0.75);
+    --ui-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-color);
+    background-image: var(--bg-gradient);
+    color: var(--text-primary);
+}
+
+/* Header UI */
+.axiom-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.brand h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.2rem;
+    color: var(--text-primary);
+    text-shadow: 0 0 20px var(--accent-glow);
+}
+
+.brand span {
+    font-size: 0.65rem;
+    letter-spacing: 0.15rem;
+    color: var(--text-muted);
+}
+
+.controls-group {
+    pointer-events: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.controls-group button {
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-border);
+    color: var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+
+.controls-group button:hover {
+    border-color: var(--mother-color);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Main Canvas */
+#canvasContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    cursor: grab;
+}
+
+#canvasContainer:active {
+    cursor: grabbing;
+}
+
+canvas {
+    display: block;
+}
+
+/* Bottom Dock */
+.axiom-dock {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 650px;
+    z-index: 10;
+}
+
+.dock-wrapper {
+    display: flex;
+    gap: 10px;
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-border);
+    padding: 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.dock-wrapper select {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--ui-border);
+    color: var(--text-primary);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.dock-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.dock-wrapper input::placeholder {
+    color: var(--text-muted);
+}
+
+.dock-wrapper button {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--ui-border);
+    color: var(--text-primary);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dock-wrapper button:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+/* Minimap */
+#minimapContainer {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 140px;
+    height: 100px;
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 8px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    pointer-events: none;
+}
