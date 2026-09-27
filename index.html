@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>AXIOM</title>
+
+<style>
+/* =========================================================
+   AXIOM
+   Embodiment of your thoughts.
+   REACTIVE / I
+   ========================================================= */
+
+:root {
+    --bg: #08090b;
+    --text: #e7e7e7;
+    --muted: #777;
+    --line: rgba(255,255,255,.12);
+
+    --glass: rgba(15,16,19,.68);
+    --glass-border: rgba(255,255,255,.09);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    background: var(--bg);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+body {
+    user-select: none;
+}
+
+/* =========================================================
+   CANVAS
+   ========================================================= */
+
+#canvas {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    touch-action: none;
+}
+
+
+/* =========================================================
+   GLASS UI
+   ========================================================= */
+
+.glass {
+    background: var(--glass);
+
+    border: 1px solid var(--glass-border);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.25);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+#header {
+    position: fixed;
+
+    top: 14px;
+    left: 14px;
+    right: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    pointer-events: none;
+
+    z-index: 20;
+}
+
+.brand {
+    pointer-events: auto;
+}
+
+.brand-title {
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: .28em;
+}
+
+.brand-subtitle {
+    margin-top: 5px;
+
+    font-size: 8px;
+    letter-spacing: .15em;
+
+    color: var(--muted);
+}
+
+.header-actions {
+    display: flex;
+    gap: 6px;
+
+    pointer-events: auto;
+}
+
+.icon-button {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 11px;
+
+    border: 1px solid var(--glass-border);
+
+    background: var(--glass);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    display: grid;
+    place-items: center;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.icon-button:active {
+    transform: scale(.95);
+}
+
+
+/* =========================================================
+   COMPOSER
+   ========================================================= */
+
+#composer {
+    position: fixed;
+
+    left: 50%;
+    bottom: 22px;
+
+    transform: translateX(-50%);
+
+    width: min(620px, calc(100vw - 28px));
+
+    display: flex;
+    align-items: flex-end;
+
+    gap: 8px;
+
+    padding: 8px;
+
+    border-radius: 16px;
+
+    z-index: 20;
+}
+
+#thoughtInput {
+    flex: 1;
+
+    min-height: 42px;
+    max-height: 130px;
+
+    resize: none;
+
+    outline: none;
+    border: none;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font-size: 14px;
+    line-height: 1.45;
+
+    padding: 10px;
+}
+
+#thoughtInput::placeholder {
+    color: rgba(255,255,255,.32);
+}
+
+#send {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,.07);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+#send:active {
+    transform: scale(.95);
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.panel {
+    position: fixed;
+
+    z-index: 30;
+
+    display: none;
+
+    border-radius: 15px;
+
+    padding: 12px;
+}
+
+.panel.open {
+    display: block;
+}
+
+#motherPanel {
+    top: 60px;
+    left: 14px;
+
+    width: min(280px, calc(100vw - 28px));
+}
+
+#menuPanel {
+    top: 60px;
+    right: 14px;
+
+    width: 210px;
+}
+
+.panel-title {
+    font-size: 9px;
+
+    letter-spacing: .16em;
+
+    color: var(--muted);
+
+    margin-bottom: 9px;
+}
+
+.menu-button {
+    width: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--text);
+
+    text-align: left;
+
+    padding: 10px;
+
+    border-radius: 9px;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    background: rgba(255,255,255,.05);
+}
+
+.mother-list {
+    max-height: 220px;
+
+    overflow-y: auto;
+}
+
+.mother {
+    padding: 9px;
+
+    border-radius: 8px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.mother:hover {
+    background: rgba(255,255,255,.05);
+
+    color: var(--text);
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#toast {
+    position: fixed;
+
+    left: 50%;
+    top: 75px;
+
+    transform: translateX(-50%);
+
+    padding: 8px 11px;
+
+    border-radius: 9px;
+
+    font-size: 10px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity .2s ease;
+
+    z-index: 50;
+}
+
+#toast.show {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    #header {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+    }
+
+    .icon-button {
+        width: 34px;
+        height: 34px;
+    }
+
+    #composer {
+        bottom: 11px;
+    }
+
+}
+</style>
+</head>
+
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
+<header id="header">
+
+    <div class="brand">
+
+        <div class="brand-title">
+            AXIOM
+        </div>
+
+        <div class="brand-subtitle">
+            EMBODIMENT OF YOUR THOUGHTS · REACTIVE / I
+        </div>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button
+            class="icon-button"
+            id="fitButton"
+            title="Fit graph">
+            ⌗
+        </button>
+
+        <button
+            class="icon-button"
+            id="motherButton"
+            title="Mothers">
+            ◌
+        </button>
+
+        <button
+            class="icon-button"
+            id="menuButton"
+            title="Menu">
+            ⋯
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =======================================================
+     MOTHER PANEL
+     ======================================================= -->
+
+<div
+    id="motherPanel"
+    class="panel glass">
+
+    <div class="panel-title">
+        MOTHERS
+    </div>
+
+    <button
+        class="menu-button"
+        id="createMother">
+        + Create Mother
+    </button>
+
+    <div
+        class="mother-list"
+        id="motherList">
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     MENU
+     ======================================================= -->
+
+<div
+    id="menuPanel"
+    class="panel glass">
+
+    <button
+        class="menu-button"
+        id="focusButton">
+        Focus selected
+    </button>
+
+    <button
+        class="menu-button"
+        id="recenterButton">
+        Recenter
+    </button>
+
+    <button
+        class="menu-button"
+        id="themeButton">
+        Change atmosphere
+    </button>
+
+    <button
+        class="menu-button"
+        id="exportButton">
+        Export PNG
+    </button>
+
+    <button
+        class="menu-button"
+        id="clearButton">
+        Clear graph
+    </button>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+     ======================================================= -->
+
+<div
+    id="toast"
+    class="glass">
+</div>
+
+
+<!-- =======================================================
+     THOUGHT COMPOSER
+     ======================================================= -->
+
+<div
+    id="composer"
+    class="glass">
+
+    <textarea
+        id="thoughtInput"
+        rows="1"
+        placeholder="Write a thought..."></textarea>
+
+    <button
+        id="send">
+        ↑
+    </button>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   AXIOM ENGINE
+   ========================================================= */
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+const state = {
+
+    width: window.innerWidth,
+    height: window.innerHeight,
+
+    dpr: Math.min(window.devicePixelRatio || 1, 2),
+
+    camera: {
+        x: 0,
+        y: 0,
+        zoom: 1
+    },
+
+    nodes: [],
+
+    links: [],
+
+    mothers: [],
+
+    selected: null,
+
+    dragging: null,
+
+    pointer: {
+        x: 0,
+        y: 0
+    },
+
+    lastTap: 0,
+
+    theme: 0
+
+};
+
+
+/* =========================================================
+   THEMES
+   =========================================================
+   
+   Themes intentionally remain extremely subtle.
+   They change the atmosphere, not the design.
+   ========================================================= */
+
+const themes = [
+
+    {
+        background: "#08090b",
+        text: "#e7e7e7",
+        muted: "#777"
+    },
+
+    {
+        background: "#090d10",
+        text: "#e2e9eb",
+        muted: "#78858a"
+    },
+
+    {
+        background: "#0c0a0d",
+        text: "#e8e4e9",
+        muted: "#817982"
+    },
+
+    {
+        background: "#0d0d0a",
+        text: "#e9e8df",
+        muted: "#858477"
+    },
+
+    {
+        background: "#090b0f",
+        text: "#e4e7ec",
+        muted: "#78808c"
+    }
+
+];
+
+
+function applyTheme() {
+
+    const theme =
+        themes[state.theme];
+
+    document.documentElement.style.setProperty(
+        "--bg",
+        theme.background
+    );
+
+    document.documentElement.style.setProperty(
+        "--text",
+        theme.text
+    );
+
+    document.documentElement.style.setProperty(
+        "--muted",
+        theme.muted
+    );
+
+}
+
+applyTheme();
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+function resizeCanvas() {
+
+    state.width = window.innerWidth;
+    state.height = window.innerHeight;
+
+    state.dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    canvas.width =
+        state.width * state.dpr;
+
+    canvas.height =
+        state.height * state.dpr;
+
+    canvas.style.width =
+        state.width + "px";
+
+    canvas.style.height =
+        state.height + "px";
+
+}
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+resizeCanvas();
+
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+
+function distance(a, b) {
+
+    return Math.hypot(
+        a.x - b.x,
+        a.y - b.y
+    );
+
+}
+
+
+function worldPosition(screenX, screenY) {
+
+    return {
+
+        x:
+            (screenX - state.width / 2)
+            / state.camera.zoom
+            - state.camera.x,
+
+        y:
+            (screenY - state.height / 2)
+            / state.camera.zoom
+            - state.camera.y
+
+    };
+
+}
+
+
+function toast(message) {
+
+    const element =
+        document.getElementById("toast");
+
+    element.textContent = message;
+
+    element.classList.add("show");
+
+    clearTimeout(toast.timer);
+
+    toast.timer =
+        setTimeout(() => {
+
+            element.classList.remove("show");
+
+        }, 1300);
+
+}
+
+
+/* =========================================================
+   TEXT PROCESSING
+   ========================================================= */
+
+function tokenize(text) {
+
+    return text
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}\s]/gu, " ")
+        .split(/\s+/)
+        .filter(word => word.length > 2);
+
+}
+
+
+/*
+   Current relationship engine is deliberately lightweight.
+
+   It can detect:
+
+   - shared words
+   - partial conceptual overlap
+   - repeated subjects
+
+   This is NOT pretending to be true AI semantic
+   understanding yet.
+
+   Later this function can be replaced with:
+   embeddings / local semantic models / LLM reasoning.
+*/
+
+function similarity(a, b) {
+
+    const A =
+        tokenize(
+            a.text || a.name
+        );
+
+    const B =
+        tokenize(
+            b.text || b.name
+        );
+
+    if (!A.length || !B.length)
+        return 0;
+
+    const setB =
+        new Set(B);
+
+    let shared = 0;
+
+    for (const word of A) {
+
+        if (setB.has(word))
+            shared++;
+
+    }
+
+    return (
+        shared /
+        Math.sqrt(A.length * B.length)
+    );
+
+}
+
+
+/* =========================================================
+   NODE CREATION
+   ========================================================= */
+
+function createMother(
+    name,
+    x = 0,
+    y = 0
+) {
+
+    const mother = {
+
+        id:
+            crypto.randomUUID(),
+
+        type:
+            "mother",
+
+        name:
+            name.trim(),
+
+        x,
+        y,
+
+        vx: 0,
+        vy: 0,
+
+        mass: 3
+
+    };
+
+    state.mothers.push(mother);
+
+    state.nodes.push(mother);
+
+    refreshMotherList();
+
+    return mother;
+
+}
+
+
+function createThought(
+    text,
+    mother
+) {
+
+    const angle =
+        Math.random() *
+        Math.PI * 2;
+
+    const radius =
+        100 +
+        Math.random() * 120;
+
+
+    const thought = {
+
+        id:
+            crypto.randomUUID(),
+
+        type:
+            "thought",
+
+        text:
+            text.trim(),
+
+        x:
+            mother.x +
+            Math.cos(angle) *
+            radius,
+
+        y:
+            mother.y +
+            Math.sin(angle) *
+            radius,
+
+        vx: 0,
+        vy: 0,
+
+        mass: 1
+
+    };
+
+
+    state.nodes.push(
+        thought
+    );
+
+
+    /*
+       Every thought belongs to a Mother.
+    */
+
+    createLink(
+        thought,
+        mother,
+        .35,
+        "mother"
+    );
+
+
+    /*
+       Check relationships with existing thoughts.
+    */
+
+    for (const other of state.nodes) {
+
+        if (
+            other === thought ||
+            other.type !== "thought"
+        )
+            continue;
+
+
+        const score =
+            similarity(
+                thought,
+                other
+            );
+
+
+        if (score >= .30) {
+
+            createLink(
+                thought,
+                other,
+                Math.min(.8, score),
+                "related"
+            );
+
+        }
+
+    }
+
+
+    return thought;
+
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+function createLink(
+    a,
+    b,
+    strength,
+    type
+) {
+
+    const exists =
+        state.links.some(link =>
+
+            (
+                link.a === a.id &&
+                link.b === b.id
+            ) ||
+
+            (
+                link.a === b.id &&
+                link.b === a.id
+            )
+
+        );
+
+    if (exists)
+        return;
+
+
+    state.links.push({
+
+        a: a.id,
+        b: b.id,
+
+        strength,
+
+        type
+
+    });
+
+}
+
+
+/* =========================================================
+   INITIAL WORLD
+   ========================================================= */
+
+const initialMother =
+    createMother(
+        "Random Thoughts",
+        0,
+        0
+    );
+
+
+createThought(
+    "I want a place where scattered ideas can find each other.",
+    initialMother
+);
+
+
+createThought(
+    "An idea feels different when it finally has a context.",
+    initialMother
+);
+
+
+/* =========================================================
+   MOTHER LIST
+   ========================================================= */
+
+function refreshMotherList() {
+
+    const list =
+        document.getElementById(
+            "motherList"
+        );
+
+    list.innerHTML = "";
+
+
+    state.mothers.forEach(
+        mother => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "mother";
+
+            item.textContent =
+                mother.name;
+
+
+            item.onclick = () => {
+
+                state.selected =
+                    mother;
+
+                focusNode(
+                    mother
+                );
+
+            };
+
+
+            list.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PHYSICS
+   ========================================================= */
+
+function updatePhysics() {
+
+    const nodes =
+        state.nodes;
+
+
+    for (const node of nodes) {
+
+        if (
+            state.dragging === node
+        )
+            continue;
+
+
+        let forceX = 0;
+        let forceY = 0;
+
+
+        /*
+           Repulsion between nearby nodes.
+        */
+
+        for (const other of nodes) {
+
+            if (other === node)
+                continue;
+
+
+            const dx =
+                other.x - node.x;
+
+            const dy =
+                other.y - node.y;
+
+            const distance =
+                Math.hypot(
+                    dx,
+                    dy
+                ) || 1;
+
+
+            if (distance < 115) {
+
+                const force =
+                    (115 - distance) *
+                    .010;
+
+
+                forceX -=
+                    (dx / distance) *
+                    force;
+
+                forceY -=
+                    (dy / distance) *
+                    force;
+
+            }
+
+        }
+
+
+        /*
+           Relationship attraction.
+        */
+
+        for (const link of state.links) {
+
+            if (
+                link.a !== node.id &&
+                link.b !== node.id
+            )
+                continue;
+
+
+            const other =
+                nodes.find(
+                    n =>
+                        n.id ===
+                        (
+                            link.a === node.id
+                                ? link.b
+                                : link.a
+                        )
+                );
+
+
+            if (!other)
+                continue;
+
+
+            const dx =
+                other.x - node.x;
+
+            const dy =
+                other.y - node.y;
+
+            const distance =
+                Math.hypot(
+                    dx,
+                    dy
+                ) || 1;
+
+
+            const targetDistance =
+                link.type === "mother"
+                    ? 130
+                    : 175;
+
+
+            const force =
+                (
+                    distance -
+                    targetDistance
+                ) *
+                .0008 *
+                (
+                    .5 +
+                    link.strength
+                );
+
+
+            forceX +=
+                (dx / distance) *
+                force;
+
+            forceY +=
+                (dy / distance) *
+                force;
+
+        }
+
+
+        /*
+           Keep thoughts reasonably close
+           to their thought universe.
+        */
+
+        if (
+            node.type ===
+            "thought"
+        ) {
+
+            let closestMother =
+                null;
+
+            let closestDistance =
+                Infinity;
+
+
+            for (
+                const mother
+                of state.mothers
+            ) {
+
+                const d =
+                    distance(
+                        node,
+                        mother
+                    );
+
+
+                if (
+                    d <
+                    closestDistance
+                ) {
+
+                    closestDistance =
+                        d;
+
+                    closestMother =
+                        mother;
+
+                }
+
+            }
+
+
+            if (closestMother) {
+
+                const dx =
+                    closestMother.x -
+                    node.x;
+
+                const dy =
+                    closestMother.y -
+                    node.y;
+
+                const d =
+                    Math.hypot(
+                        dx,
+                        dy
+                    ) || 1;
+
+
+                const force =
+                    Math.max(
+                        0,
+                        d - 320
+                    ) *
+                    .00035;
+
+
+                forceX +=
+                    dx / d *
+                    force;
+
+                forceY +=
+                    dy / d *
+                    force;
+
+            }
+
+        }
+
+
+        node.vx =
+            (
+                node.vx +
+                forceX
+            ) * .94;
+
+
+        node.vy =
+            (
+                node.vy +
+                forceY
+            ) * .94;
+
+
+        node.x +=
+            node.vx;
+
+        node.y +=
+            node.vy;
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAWING
+   ========================================================= */
+
+function draw() {
+
+    const theme =
+        themes[state.theme];
+
+
+    ctx.setTransform(
+        state.dpr,
+        0,
+        0,
+        state.dpr,
+        0,
+        0
+    );
+
+
+    ctx.clearRect(
+        0,
+        0,
+        state.width,
+        state.height
+    );
+
+
+    ctx.fillStyle =
+        theme.background;
+
+    ctx.fillRect(
+        0,
+        0,
+        state.width,
+        state.height
+    );
+
+
+    ctx.save();
+
+
+    ctx.translate(
+        state.width / 2,
+        state.height / 2
+    );
+
+
+    ctx.scale(
+        state.camera.zoom,
+        state.camera.zoom
+    );
+
+
+    ctx.translate(
+        state.camera.x,
+        state.camera.y
+    );
+
+
+    drawGrid();
+
+    drawLinks();
+
+    drawNodes();
+
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+function drawGrid() {
+
+    const spacing = 50;
+
+    const left =
+        -state.width /
+        2 /
+        state.camera.zoom
+        -
+        state.camera.x;
+
+    const right =
+        state.width /
+        2 /
+        state.camera.zoom
+        -
+        state.camera.x;
+
+    const top =
+        -state.height /
+        2 /
+        state.camera.zoom
+        -
+        state.camera.y;
+
+    const bottom =
+        state.height /
+        2 /
+        state.camera.zoom
+        -
+        state.camera.y;
+
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.025)";
+
+    ctx.lineWidth =
+        1 /
+        state.camera.zoom;
+
+
+    for (
+        let x =
+            Math.floor(
+                left / spacing
+            ) * spacing;
+
+        x < right;
+
+        x += spacing
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            top
+        );
+
+        ctx.lineTo(
+            x,
+            bottom
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    for (
+        let y =
+            Math.floor(
+                top / spacing
+            ) * spacing;
+
+        y < bottom;
+
+        y += spacing
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            left,
+            y
+        );
+
+        ctx.lineTo(
+            right,
+            y
+        );
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+function drawLinks() {
+
+    const selected =
+        state.selected;
+
+
+    for (
+        const link
+        of state.links
+    ) {
+
+        const a =
+            state.nodes.find(
+                n =>
+                    n.id === link.a
+            );
+
+        const b =
+            state.nodes.find(
+                n =>
+                    n.id === link.b
+            );
+
+
+        if (!a || !b)
+            continue;
+
+
+        let alpha =
+            link.type === "mother"
+                ? .12
+                : .07;
+
+
+        if (
+            selected &&
+            (
+                a === selected ||
+                b === selected
+            )
+        ) {
+
+            alpha =
+                link.type === "mother"
+                    ? .30
+                    : .22;
+
+        }
+
+
+        ctx.strokeStyle =
+            `rgba(230,230,230,${alpha})`;
+
+
+        ctx.lineWidth =
+            link.type === "mother"
+                ? 1
+                : .7;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            a.x,
+            a.y
+        );
+
+        ctx.lineTo(
+            b.x,
+            b.y
+        );
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =========================================================
+   NODES
+   ========================================================= */
+
+function drawNodes() {
+
+    const selected =
+        state.selected;
+
+
+    for (
+        const node
+        of state.nodes
+    ) {
+
+        let visible = true;
+
+
+        /*
+           Focus mode:
+           unrelated thoughts fade.
+        */
+
+        if (selected) {
+
+            const connected =
+                state.links.some(
+                    link =>
+
+                        (
+                            link.a ===
+                            selected.id &&
+                            link.b ===
+                            node.id
+                        )
+
+                        ||
+
+                        (
+                            link.b ===
+                            selected.id &&
+                            link.a ===
+                            node.id
+                        )
+                );
+
+
+            if (
+                node !== selected &&
+                !connected
+            ) {
+
+                visible = false;
+
+            }
+
+        }
+
+
+        ctx.globalAlpha =
+            visible ? 1 : .13;
+
+
+        ctx.fillStyle =
+            themes[state.theme].text;
+
+
+        if (
+            node.type ===
+            "mother"
+        ) {
+
+            drawMother(
+                node
+            );
+
+        } else {
+
+            drawThought(
+                node
+            );
+
+        }
+
+    }
+
+
+    ctx.globalAlpha = 1;
+
+}
+
+
+/* =========================================================
+   MOTHER
+   ========================================================= */
+
+function drawMother(node) {
+
+    ctx.font =
+        `600 ${
+            15 /
+            state.camera.zoom
+        }px Inter, system-ui, sans-serif`;
+
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+
+    ctx.fillText(
+        node.name,
+        node.x,
+        node.y
+    );
+
+
+    /*
+       Extremely subtle marker.
+       No bubble.
+       No circle.
+    */
+
+    ctx.fillStyle =
+        "rgba(255,255,255,.25)";
+
+
+    ctx.fillRect(
+        node.x - 12,
+        node.y + 10,
+        24,
+        .6 /
+        state.camera.zoom
+    );
+
+}
+
+
+/* =========================================================
+   THOUGHT
+   ========================================================= */
+
+function drawThought(node) {
+
+    const fontSize =
+        13 /
+        state.camera.zoom;
+
+
+    ctx.font =
+        `400 ${
+            fontSize
+        }px Inter, system-ui, sans-serif`;
+
+
+    ctx.textAlign =
+        "center";
+
+    ctx.textBaseline =
+        "middle";
+
+
+    wrapText(
+        node.text,
+        node.x,
+        node.y,
+        280 /
+        state.camera.zoom,
+        17 /
+        state.camera.zoom
+    );
+
+}
+
+
+/* =========================================================
+   TEXT WRAPPING
+   ========================================================= */
+
+function wrapText(
+    text,
+    x,
+    y,
+    maxWidth,
+    lineHeight
+) {
+
+    const words =
+        text.split(/\s+/);
+
+    const lines = [];
+
+    let line = "";
+
+
+    for (
+        const word
+        of words
+    ) {
+
+        const test =
+            line
+                ? line + " " + word
+                : word;
+
+
+        if (
+            ctx.measureText(test)
+                .width >
+                maxWidth
+            &&
+            line
+        ) {
+
+            lines.push(line);
+
+            line =
+                word;
+
+        } else {
+
+            line =
+                test;
+
+        }
+
+    }
+
+
+    if (line)
+        lines.push(line);
+
+
+    const startY =
+        y -
+        (
+            (lines.length - 1) *
+            lineHeight /
+            2
+        );
+
+
+    lines.forEach(
+        (lineText, index) => {
+
+            ctx.fillText(
+                lineText,
+                x,
+                startY +
+                index *
+                lineHeight
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CAMERA
+   ========================================================= */
+
+function fitGraph() {
+
+    if (!state.nodes.length)
+        return;
+
+
+    let minX = Infinity;
+    let maxX = -Infinity;
+
+    let minY = Infinity;
+    let maxY = -Infinity;
+
+
+    state.nodes.forEach(
+        node => {
+
+            minX =
+                Math.min(
+                    minX,
+                    node.x
+                );
+
+            maxX =
+                Math.max(
+                    maxX,
+                    node.x
+                );
+
+            minY =
+                Math.min(
+                    minY,
+                    node.y
+                );
+
+            maxY =
+                Math.max(
+                    maxY,
+                    node.y
+                );
+
+        }
+    );
+
+
+    const width =
+        Math.max(
+            250,
+            maxX - minX + 200
+        );
+
+
+    const height =
+        Math.max(
+            200,
+            maxY - minY + 200
+        );
+
+
+    state.camera.x =
+        -(minX + maxX) / 2;
+
+
+    state.camera.y =
+        -(minY + maxY) / 2;
+
+
+    state.camera.zoom =
+        Math.max(
+            .35,
+            Math.min(
+                1.5,
+
+                Math.min(
+                    state.width / width,
+                    state.height / height
+                )
+            )
+        );
+
+}
+
+
+function focusNode(node) {
+
+    state.camera.x =
+        -node.x;
+
+    state.camera.y =
+        -node.y;
+
+    state.camera.zoom =
+        1.15;
+
+}
+
+
+/* =========================================================
+   ADD THOUGHT
+   ========================================================= */
+
+function addThought() {
+
+    const input =
+        document.getElementById(
+            "thoughtInput"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text)
+        return;
+
+
+    let mother =
+        state.mothers[0];
+
+
+    if (
+        state.selected &&
+        state.selected.type ===
+        "mother"
+    ) {
+
+        mother =
+            state.selected;
+
+    }
+
+
+    const thought =
+        createThought(
+            text,
+            mother
+        );
+
+
+    state.selected =
+        thought;
+
+
+    input.value = "";
+
+    input.style.height =
+        "auto";
+
+
+    toast(
+        "Thought placed."
+    );
+
+}
+
+
+document
+    .getElementById("send")
+    .addEventListener(
+        "click",
+        addThought
+    );
+
+
+document
+    .getElementById("thoughtInput")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                addThought();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById("thoughtInput")
+    .addEventListener(
+        "input",
+        event => {
+
+            event.target.style.height =
+                "auto";
+
+            event.target.style.height =
+                Math.min(
+                    event.target.scrollHeight,
+                    130
+                ) + "px";
+
+        }
+    );
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+document
+    .getElementById("fitButton")
+    .onclick =
+        fitGraph;
+
+
+document
+    .getElementById("motherButton")
+    .onclick = () => {
+
+        document
+            .getElementById(
+                "motherPanel"
+            )
+            .classList.toggle(
+                "open"
+            );
+
+    };
+
+
+document
+    .getElementById("menuButton")
+    .onclick = () => {
+
+        document
+            .getElementById(
+                "menuPanel"
+            )
+            .classList.toggle(
+                "open"
+            );
+
+    };
+
+
+document
+    .getElementById("focusButton")
+    .onclick = () => {
+
+        if (state.selected)
+            focusNode(
+                state.selected
+            );
+
+    };
+
+
+document
+    .getElementById("recenterButton")
+    .onclick = () => {
+
+        state.camera.x = 0;
+        state.camera.y = 0;
+        state.camera.zoom = 1;
+
+    };
+
+
+document
+    .getElementById("themeButton")
+    .onclick = () => {
+
+        state.theme =
+            (
+                state.theme + 1
+            ) %
+            themes.length;
+
+        applyTheme();
+
+        toast(
+            "Atmosphere changed."
+        );
+
+    };
+
+
+/* =========================================================
+   CREATE MOTHER
+   ========================================================= */
+
+document
+    .getElementById("createMother")
+    .onclick = () => {
+
+        const name =
+            prompt(
+                "Mother name:"
+            );
+
+
+        if (
+            !name ||
+            !name.trim()
+        )
+            return;
+
+
+        const mother =
+            createMother(
+                name,
+                0,
+                0
+            );
+
+
+        state.selected =
+            mother;
+
+
+        focusNode(
+            mother
+        );
+
+
+        toast(
+            "Mother created."
+        );
+
+    };
+
+
+/* =========================================================
+   CLEAR
+   ========================================================= */
+
+document
+    .getElementById("clearButton")
+    .onclick = () => {
+
+        if (
+            !confirm(
+                "Clear the entire graph?"
+            )
+        )
+            return;
+
+
+        state.nodes = [];
+        state.links = [];
+        state.mothers = [];
+        state.selected = null;
+
+
+        createMother(
+            "Random Thoughts",
+            0,
+            0
+        );
+
+
+        refreshMotherList();
+
+
+        toast(
+            "Graph cleared."
+        );
+
+    };
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+document
+    .getElementById("exportButton")
+    .onclick = () => {
+
+        fitGraph();
+
+        draw();
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.download =
+            "axiom-constellation.png";
+
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+
+        link.click();
+
+
+        toast(
+            "PNG exported."
+        );
+
+    };
+
+
+/* =========================================================
+   POINTER / DRAGGING
+   ========================================================= */
+
+function pointerPosition(event) {
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+
+    return {
+
+        x:
+            event.clientX -
+            rect.left,
+
+        y:
+            event.clientY -
+            rect.top
+
+    };
+
+}
+
+
+canvas.addEventListener(
+    "pointerdown",
+    event => {
+
+        canvas.setPointerCapture(
+            event.pointerId
+        );
+
+
+        const p =
+            pointerPosition(
+                event
+            );
+
+
+        state.pointer =
+            p;
+
+
+        const world =
+            worldPosition(
+                p.x,
+                p.y
+            );
+
+
+        let closest =
+            null;
+
+        let closestDistance =
+            Infinity;
+
+
+        for (
+            const node
+            of state.nodes
+        ) {
+
+            const d =
+                distance(
+                    node,
+                    world
+                );
+
+
+            const hitRadius =
+                node.type ===
+                "mother"
+                    ? 40
+                    : 42;
+
+
+            if (
+                d <
+                hitRadius &&
+                d <
+                closestDistance
+            ) {
+
+                closest =
+                    node;
+
+                closestDistance =
+                    d;
+
+            }
+
+        }
+
+
+        const now =
+            Date.now();
+
+
+        /*
+           Double tap / double click
+           fits the entire graph.
+        */
+
+        if (
+            now -
+            state.lastTap <
+            280
+        ) {
+
+            fitGraph();
+
+            state.lastTap = 0;
+
+            return;
+
+        }
+
+
+        state.lastTap =
+            now;
+
+
+        state.dragging =
+            closest;
+
+
+        if (closest) {
+
+            state.selected =
+                closest;
+
+        }
+
+    }
+);
+
+
+canvas.addEventListener(
+    "pointermove",
+    event => {
+
+        const p =
+            pointerPosition(
+                event
+            );
+
+
+        if (
+            state.dragging
+        ) {
+
+            const world =
+                worldPosition(
+                    p.x,
+                    p.y
+                );
+
+
+            state.dragging.x =
+                world.x;
+
+            state.dragging.y =
+                world.y;
+
+
+            state.dragging.vx = 0;
+            state.dragging.vy = 0;
+
+        }
+
+
+        else if (
+            event.buttons
+        ) {
+
+            const dx =
+                p.x -
+                state.pointer.x;
+
+            const dy =
+                p.y -
+                state.pointer.y;
+
+
+            state.camera.x +=
+                dx /
+                state.camera.zoom;
+
+
+            state.camera.y +=
+                dy /
+                state.camera.zoom;
+
+        }
+
+
+        state.pointer =
+            p;
+
+    }
+);
+
+
+canvas.addEventListener(
+    "pointerup",
+    () => {
+
+        state.dragging =
+            null;
+
+    }
+);
+
+
+/* =========================================================
+   WHEEL / TRACKPAD ZOOM
+   ========================================================= */
+
+canvas.addEventListener(
+    "wheel",
+    event => {
+
+        event.preventDefault();
+
+
+        const before =
+            worldPosition(
+                event.clientX,
+                event.clientY
+            );
+
+
+        const factor =
+            Math.exp(
+                -event.deltaY *
+                .001
+            );
+
+
+        state.camera.zoom =
+            Math.max(
+                .2,
+                Math.min(
+                    3,
+                    state.camera.zoom *
+                    factor
+                )
+            );
+
+
+        const after =
+            worldPosition(
+                event.clientX,
+                event.clientY
+            );
+
+
+        /*
+           Keep the cursor anchored
+           during zoom.
+        */
+
+        state.camera.x +=
+            after.x -
+            before.x;
+
+
+        state.camera.y +=
+            after.y -
+            before.y;
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* =========================================================
+   MOBILE PINCH ZOOM
+   ========================================================= */
+
+let pinch = null;
+
+
+canvas.addEventListener(
+    "touchstart",
+    event => {
+
+        if (
+            event.touches.length !== 2
+        )
+            return;
+
+
+        const a =
+            event.touches[0];
+
+        const b =
+            event.touches[1];
+
+
+        pinch = {
+
+            distance:
+                Math.hypot(
+                    a.clientX -
+                    b.clientX,
+
+                    a.clientY -
+                    b.clientY
+                ),
+
+            zoom:
+                state.camera.zoom
+
+        };
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+canvas.addEventListener(
+    "touchmove",
+    event => {
+
+        if (
+            event.touches.length !== 2 ||
+            !pinch
+        )
+            return;
+
+
+        const a =
+            event.touches[0];
+
+        const b =
+            event.touches[1];
+
+
+        const distance =
+            Math.hypot(
+                a.clientX -
+                b.clientX,
+
+                a.clientY -
+                b.clientY
+            );
+
+
+        state.camera.zoom =
+            Math.max(
+                .2,
+                Math.min(
+                    3,
+
+                    pinch.zoom *
+                    (
+                        distance /
+                        pinch.distance
+                    )
+                )
+            );
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+canvas.addEventListener(
+    "touchend",
+    event => {
+
+        if (
+            event.touches.length <
+            2
+        ) {
+
+            pinch = null;
+
+        }
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+/* =========================================================
+   MAIN LOOP
+   ========================================================= */
+
+function animate() {
+
+    updatePhysics();
+
+    draw();
+
+    requestAnimationFrame(
+        animate
+    );
+
+}
+
+
+animate();
+
+</script>
+
+</body>
+</html>
